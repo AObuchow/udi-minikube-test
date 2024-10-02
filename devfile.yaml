@@ -11,3 +11,40 @@ components:
     container:
       image: quay.io/devfile/universal-developer-image:ubi8-latest
       mountSources: true
+      endpoints:
+        - name: https-python
+          targetPort: 8080
+          protocol: http
+          secure: true
+          attributes:
+            discoverable: true
+        - exposure: none
+          name: debug
+          targetPort: 5858
+      env:
+        - name: DEBUG_PORT
+          value: '5858'
+commands:
+  - id: pip-install-requirements
+    exec:
+      commandLine: pip install -r requirements.txt
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+        isDefault: true
+      component: tools
+  - id: run-app
+    exec:
+      commandLine: 'python app.py'
+      workingDir: ${PROJECT_SOURCE}
+      component: tools
+      group:
+        kind: run
+        isDefault: true
+  - id: debug-py
+    exec:
+      commandLine: 'pip install debugpy && python -m debugpy --listen 0.0.0.0:${DEBUG_PORT} app.py'
+      workingDir: ${PROJECT_SOURCE}
+      component: tools
+      group:
+        kind: debug
