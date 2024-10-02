@@ -1,6 +1,7 @@
 schemaVersion: 2.2.0
 metadata:
   name: udi
+  namespace: user1-che
   displayName: Universal Developer Image
   description: Universal Developer Image provides various programming languages tools and runtimes for instant coding
   icon: https://raw.githubusercontent.com/devfile/devfile-web/main/apps/landing-page/public/pwa-192x192.png
